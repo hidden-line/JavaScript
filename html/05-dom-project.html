@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Project</title>
+    <link rel="stylesheet" href="../css/05-dom-project.css">
+</head>
+<body>
+    <p>Youtube Subscribe</p>
+
+    <button class="js-subscribe subscribe-btn" 
+            onclick="subscribe()">
+        Subscribe
+    </button>
+
+    <p>Amazon Shipping Calculator</p>
+    <p>Shipping cost +10 if cost <= 40</p>
+    <p>Shipping cost free if cost > 40</p>
+
+    <input class="js-cost-input cost-input" 
+            placeholder="Cost of order" 
+            onkeydown="isHitEnter(event)">
+
+    <button class="calculate-btn" onclick="calculateCost()">Calculate</button>
+
+    <p class="js-total-cost"></p>
+
+    <script src="../js/05-dom-project.js"></script>
+</body>
+</html>
