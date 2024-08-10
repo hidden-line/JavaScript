@@ -1,6 +1,6 @@
 // 0 < rock <= 1 / 3 < paper <= 2 / 3 < scissor < 1
 
-_updateScore();
+updateScore();
 
 const moveList = ['rock', 'paper', 'scissors'];
 
@@ -11,7 +11,11 @@ moveList.forEach(move => {
 });
 
 document.querySelector('.js-reset-score').addEventListener('click', () => {
-    resetScore();
+    const isConfirmed = confirm("Are you sure to reset score?");
+            
+    if (isConfirmed) {
+        resetScore();
+    }
 });
 
 const autoPlayElement = document.querySelector('.js-auto-play');
@@ -24,7 +28,7 @@ let intervalId;
 let isAutoPlaying = false;
 
 function autoPlay() {
-    const playMovesFunction = () => playGame(_getAutoMoves());
+    const playMovesFunction = () => playGame(getAutoMoves());
 
     if (!isAutoPlaying) {
         intervalId = setInterval(playMovesFunction, 2000);
@@ -38,8 +42,8 @@ function autoPlay() {
 }
 
 function playGame(playerMoves) {
-    const score = _getFromLocal();
-    const computerMoves = _getAutoMoves();
+    const score = getFromLocal();
+    const computerMoves = getAutoMoves();
     let winner = 'Computer';
 
     if (playerMoves === 'rock') {
@@ -74,11 +78,11 @@ function playGame(playerMoves) {
         }
     }
 
-    _getWinner(playerMoves, computerMoves, winner);
+    getWinner(playerMoves, computerMoves, winner);
 
     localStorage.setItem('score', JSON.stringify(score));
 
-    _updateScore();
+    updateScore();
 }
 
 function resetScore() {
@@ -89,13 +93,13 @@ function resetScore() {
     document.querySelector('.js-score').innerHTML = 'Wins: 0, Losses: 0, Ties: 0';
 }
 
-function _updateScore() {
-    score = _getFromLocal();
+function updateScore() {
+    score = getFromLocal();
     const scoreElement = document.querySelector('.js-score');
     scoreElement.innerHTML = `Wins: ${score.wins}, Losses: ${score.loses}, Ties: ${score.ties}`;
 }
 
-function _getAutoMoves() {
+function getAutoMoves() {
     let computerMoves = 'scissors';
     const randomValue = Math.random();
 
@@ -110,7 +114,7 @@ function _getAutoMoves() {
     return computerMoves;
 }
 
-function _getWinner(playerMoves, computerMoves, winner) {
+function getWinner(playerMoves, computerMoves, winner) {
     const winnerElement = document.querySelector('.js-winner');
     
     if (winner === 'Tie') {
@@ -125,6 +129,6 @@ function _getWinner(playerMoves, computerMoves, winner) {
         : Computer <img src="../images/${computerMoves}-emoji.png" class="move-icon">`;
 }
 
-function _getFromLocal() {
+function getFromLocal() {
     return JSON.parse(localStorage.getItem('score')) || {wins: 0, loses: 0, ties: 0};
 }

@@ -25,11 +25,11 @@ function removeTodo(idx) {
     todoList.splice(idx, 1);
     
     renderHTML();
-    showDoneMsg('js-done-msg', 'Deleted!');
+    showDoneMsg('.js-done-msg', 'Deleted!');
 }
 
 function showDoneMsg(id, msg) {
-    const doneMsgElement = document.querySelector(`.${id}`);
+    const doneMsgElement = document.querySelector(id);
     doneMsgElement.innerHTML = msg;
 
     setTimeout(() => {
@@ -55,9 +55,11 @@ function renderHTML() {
 
     deleteBtnElements.forEach((btnElement, index) => {
         btnElement.addEventListener('click', () => {
-            todoList.splice(index, 1);
-            renderHTML();
-            showDoneMsg('js-done-msg', 'Deleted!');
+            const isConfirmed = confirm("Are you sure to delete this todo?");
+            
+            if (isConfirmed) {
+                removeTodo(index);
+            }
         });
     });
 }
