@@ -1,4 +1,4 @@
-const $todoList = [];
+const todoList = [];
 
 document.querySelector('.js-add-btn').addEventListener('click', () => {
     addTask();
@@ -8,27 +8,27 @@ function addTask() {
     const taskInputElement = document.querySelector('.js-task-input');
     const dateInputElement = document.querySelector('.js-date-input');
 
-    $todoList.push({
+    todoList.push({
         task: taskInputElement.value,
         date: dateInputElement.value
     });
 
-    _renderHTML();
+    renderHTML();
 
     taskInputElement.value = '';
     dateInputElement.value = '';
     
-    _showDoneMsg('js-done-msg', 'Added!');
+    showDoneMsg('js-done-msg', 'Added!');
 }
 
 function removeTodo(idx) {
-    $todoList.splice(idx, 1);
+    todoList.splice(idx, 1);
     
-    _renderHTML();
-    _showDoneMsg('js-done-msg', 'Deleted!');
+    renderHTML();
+    showDoneMsg('js-done-msg', 'Deleted!');
 }
 
-function _showDoneMsg(id, msg) {
+function showDoneMsg(id, msg) {
     const doneMsgElement = document.querySelector(`.${id}`);
     doneMsgElement.innerHTML = msg;
 
@@ -37,17 +37,27 @@ function _showDoneMsg(id, msg) {
     }, 5000);
 }
 
-function _renderHTML() {
+function renderHTML() {
     let html = '';
 
-    for (let i = 0; i < $todoList.length; i++) {
+    todoList.forEach(todo => {
         html += `
-            <div>${$todoList[i].task}</div>
-            <div>${$todoList[i].date}</div>
-            <button onclick="removeTodo(${i})" class="delete-btn">Delete</button>
+            <div>${todo.task}</div>
+            <div>${todo.date}</div>
+            <button class="delete-btn js-delete-btn">Delete</button>
         `;
-    }
+    });
 
     const todoListElement = document.querySelector('.js-todo-list');
     todoListElement.innerHTML = html;
+
+    const deleteBtnElements = document.querySelectorAll('.js-delete-btn');
+
+    deleteBtnElements.forEach((btnElement, index) => {
+        btnElement.addEventListener('click', () => {
+            todoList.splice(index, 1);
+            renderHTML();
+            showDoneMsg('js-done-msg', 'Deleted!');
+        });
+    });
 }
